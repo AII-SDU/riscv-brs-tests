@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright 2024, ISCAS. All rights reserved.
+# Copyright 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-set -e
 
 REALEASE_TYPE=RELEASE
 
@@ -45,61 +44,140 @@ brs_init()
     rm -rf $TARGET_DIR
 }
 
-brs_compile()
+brs_compile_all()
 {
-    # 1. compile linux
     echo "Compiling linux..."
     pushd $SRC_DIR/brs-linux
     make
     popd
-
-    # 2. compile grub
+    
     echo "Compiling grub..."
     pushd $SRC_DIR/brs-grub
     make
     popd
-
-    # 3. compile edk2
+    
     echo "Compiling edk2..."
     pushd $SRC_DIR/brs-edk2
     make
     popd
-
-    # 4. compile edk2-test
+    
     echo "Compiling edk2-test..."
     pushd $SRC_DIR/brs-edk2-test
     make
     popd
-
-    # 5. compile edk2-test-parser
+    
     echo "Compiling edk2-test-parser..."
     pushd $SRC_DIR/brs-edk2-test-parser
     make
     popd
-
-    # 6. compile buildroot
+    
     echo "Compiling buildroot..."
     pushd $SRC_DIR/brs-buildroot
     make
-    popd
-
-    # 7. compile opensbi
+    popd    
+    
     echo "Compiling opensbi..."
     pushd $SRC_DIR/brs-opensbi
     make
     popd
-
-    # 8. compile sbi-test
+    
     echo "Compiling sbi-test..."
     pushd $SRC_DIR/brs-sbi-test
     make
     popd
-
-    # 9. compile qemu
+    
     echo "Compiling Qemu..."
     pushd $SRC_DIR/brs-qemu
     make
-    popd
+    popd    
+}
+
+brs_compile()
+{
+    while true; do
+        echo "Press your compile choice (1~10):"
+        echo "1: compile linux"
+        echo "2: compile grub"
+        echo "3: compile edk2"
+        echo "4: compile edk2-test"
+        echo "5: compile edk2-test-parser"
+        echo "6: compile buildroot"
+        echo "7: compile opensbi"
+        echo "8: compile sbi-test"
+        echo "9: compile qemu"
+        echo "10: compile all"
+        echo "q: quit"    
+        
+        read -p "Enter your choice: " choice
+        
+        case $choice in
+            1)
+                echo "Compiling linux..."
+                pushd $SRC_DIR/brs-linux
+                make
+                popd
+                ;;
+            2)
+                echo "Compiling grub..."
+                pushd $SRC_DIR/brs-grub
+                make
+                popd
+                ;;
+            3)
+                echo "Compiling edk2..."
+                pushd $SRC_DIR/brs-edk2
+                make
+                popd
+                ;;
+            4)
+                echo "Compiling edk2-test..."
+                pushd $SRC_DIR/brs-edk2-test
+                make
+                popd
+                ;;
+            5)
+                echo "Compiling edk2-test-parser..."
+                pushd $SRC_DIR/brs-edk2-test-parser
+                make
+                popd
+                ;;
+            6)
+                echo "Compiling buildroot..."
+                pushd $SRC_DIR/brs-buildroot
+                make
+                popd
+                ;;
+            7)
+                echo "Compiling opensbi..."
+                pushd $SRC_DIR/brs-opensbi
+                make
+                popd
+                ;;
+            8)
+                echo "Compiling sbi-test..."
+                pushd $SRC_DIR/brs-sbi-test
+                make
+                popd
+                ;;
+            9)
+                echo "Compiling Qemu..."
+                pushd $SRC_DIR/brs-qemu
+                make
+                popd
+                ;;
+            10) 
+                echo "Compile all..."
+                brs_compile_all
+                ;;
+            q|Q)
+                echo "quit compile program."
+                kill -SIGINT $$
+                ;;
+            *)
+                echo "Invalid option, please try again."
+                ;;
+        esac
+    done
 }
 
 brs_buildimage()

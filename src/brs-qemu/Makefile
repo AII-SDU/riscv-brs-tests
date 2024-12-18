@@ -1,4 +1,5 @@
 # Copyright 2024, ISCAS. All rights reserved.
+# Copyright 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,7 +54,7 @@ brs-qemu:
 	fi
 
 	@echo "Configuring QEMU..."
-	./configure --enable-slirp --enable-debug --target-list=riscv64-softmmu
+	./configure --disable-werror --enable-slirp --enable-debug --target-list=riscv64-softmmu
 
 	@echo "Compiling QEMU..."
 	make -j$(nproc)

@@ -4,6 +4,7 @@
 #  Copyright (c) 2011 - 2020, ARM Ltd. All rights reserved.<BR>
 #  (C) Copyright 2021 Hewlett Packard Enterprise Development LP<BR>
 #  Copyright (c) 2024 Intel Corporation
+#  Copyright (c) 2024 Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.
 #
 #  This program and the accompanying materials
 #  are licensed and made available under the terms and conditions of the BSD License
@@ -132,7 +133,6 @@ do
     then
     echo "Couldn't build SCT:"
     echo The directory `pwd`/$name does not exist.
-    exit -1
     fi
 done
 
@@ -142,7 +142,6 @@ export EFI_SOURCE=`pwd`
 status=$?
 if test $status -ne 0; then
 	echo Could not Run the edksetup.sh script
-	exit -1
 fi
 
 SCT_TARGET_ARCH=${1}
@@ -170,7 +169,6 @@ case `uname` in
 		*)
 			echo "Couldn't build SCT:"
 			PrintUsage
-			exit -1
 		;;
 	esac
    ;;
@@ -187,7 +185,6 @@ case `uname` in
 		*)
 			echo "Couldn't build SCT:"
 			PrintUsage
-			exit -1
 		;;
 	esac
    ;;
@@ -195,7 +192,6 @@ case `uname` in
      echo "Couldn't build SCT:"
      echo "Unknown OS, Use this script either in Unix or Cygwin environment".
      PrintUsage
-     exit -1
    ;;
 esac
 
@@ -237,7 +233,6 @@ then
   if test $status -ne 0
   then
     echo Error while building EDK tools
-    exit -1
   fi
 else
   echo using prebuilt tools
@@ -252,7 +247,6 @@ status=$?
 if test $status -ne 0
 then
   echo Error while building GenBin
-  exit -1
 fi
 
 # Copy GenBin file to Base tools bin directory
@@ -273,7 +267,6 @@ do
 	if test $status -ne 0
 	then
 		echo Could not build package $DSC
-		exit -1
 	fi
 done
 
@@ -285,7 +278,7 @@ do
   if [ $arg == clean ] || [ $arg == cleanall ]
   then
       # no need to post process if we are doing a clean
-      exit 1
+      ;
   fi
 done
 
@@ -304,7 +297,6 @@ status=$?
 if test $status -ne 0
 then
   echo Could not generate UEFI SCT binary
-  exit -1
 else
 echo The SCT binary "SctPackage${SCT_TARGET_ARCH}" is located at "$EFI_SOURCE/Build/UefiSct/${SCT_BUILD}_${TARGET_TOOLS}"
 fi

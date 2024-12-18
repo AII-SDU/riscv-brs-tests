@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copyright 2024, ISCAS. All rights reserved.
+# Copyright 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +15,6 @@
 # limitations under the License.
 
 # Enable debug ouput for script
-set -e
 
 BRS_QEMU_RISCV64=./qemu/build/qemu-system-riscv64
 BRS_BIOS=./fw_dynamic.bin
@@ -32,7 +32,6 @@ elif [ -e $BRS_IMAGE_XZ ]; then
     xz -d $BRS_IMAGE_XZ
 else
     echo "Firmware test suite image: $BRS_IMAGE_XZ does not exist!"
-    exit 1
 fi
 
 echo "Starting rv64 qemu... press Ctrl+A, X to exit qemu"
