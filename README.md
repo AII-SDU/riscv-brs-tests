@@ -5,8 +5,45 @@ RISC-V Boot and Runtime Services Test Suite
 
 ## Overview
 
-Used for getting source and run brs test in a Qemu
-environment rapidly. There are two menu in build.sh .
+Used for simplifying the construction process of related test projects. 
+There are two menu in build.sh .
+
+## Environments
+
+Before running, make sure that you have installed these packages:
+
+        curl mtools gdisk gcc openssl automake autotools-dev libtool bison 
+        flex bc uuid-dev python3 libglib2.0-dev libssl-dev autopoint 
+        gcc-riscv64-unknown-elf gcc g++
+
+At the same time, please build on Ubuntu 22.04 and ensure at least 30GB of 
+free disk space.
+
+## Structure
+
+The structure of this repository is listed below:
+
+        .
+        ├── Scripts
+               ├── BRSIStartup.nsh
+               ├── debug_dump.nsh
+               ├── start_uefi_sct.sh
+               └── startup.nsh
+        ├── src
+             ├── brs-buildroot
+             ├── brs-edk2-test-parser
+             ├── brs-edk2-test
+             ├── brs-edk2
+             ├── brs-grub
+             ├── brs-linux
+             ├── brs-opensbi
+             ├── brs-qemu
+             └── brs-sbi-test
+        ├── .gitgnore
+        ├── LICENSE
+        ├── NOTICE
+        ├── README.md
+        └── build.sh
 
 ## How To Run
 
@@ -44,7 +81,19 @@ you will see a menu which contains 11 options:
 
 Similar with last menu, if you don't make any 
 choice within 10 seconds, all components will
-be compiled.
+be compiled. The sources of these components are
+as follows:
+| project   | source                                                 | tag/branch                               |
+| --------- | -------------------------------------------------      | ---------------------------------------- |
+| buildroot | https://github.com/buildroot/buildroot.git             | 2023.11                                  |
+| edk2-test | https://github.com/tianocore/edk2-test.git             | 81dfa8d53d4290366ae41e1f4c2ed6d6c5016c07 |
+| edk2      | https://github.com/tianocore/edk2.git                  | edk2-stable202308                        |
+| grub      | https://git.savannah.gnu.org/git/grub.git              | grub-2.12                                |
+| linux     | https://github.com/torvalds/linux.git                  | v6.12                                    |
+| opensbi   | https://github.com/riscv-software-src/opensbi.git      | v1.4                                     |
+| qemu      | https://github.com/qemu/qemu.git                       | v9.0.0                                   |
+| SBI-test  | https://gitlab.com/kvm-unit-tests/kvm-unit-tests.git   | v2024-01-08                              |
+|           |                                                        |                                          |
 
 After executing the build.sh, you will see a 
 directory named 'target'. Enter this directory
