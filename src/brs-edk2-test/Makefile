@@ -18,7 +18,7 @@ SHELL = /bin/bash
 
 BRS_EDK2_TEST_CROSS_COMPILE = riscv64-linux-gnu-
 BRS_EDK2_TEST_TARGET = brs-edk2-test
-BRS_EDK2_TEST_REPOURL = git@github.com:tianocore/edk2-test.git
+BRS_EDK2_TEST_REPOURL = https://github.com/tianocore/edk2-test.git
 BRS_EDK2_TEST_BRANCH = brs-test
 BRS_EDK2_TEST_COMMIT = 81dfa8d53d4290366ae41e1f4c2ed6d6c5016c07
 
@@ -91,7 +91,7 @@ brs-edk2-test:
 	cp SctPkg/BRS/EfiCompliant_BRSI.ini RISCV64_SCT/SCT/Dependency/EfiCompliantBBTest/EfiCompliant.ini
 	cp SctPkg/BRS/BRSI_manual.seq       RISCV64_SCT/SCT/Sequence/BRSI_manual.seq
 	cp SctPkg/BRS/BRSI_extd_run.seq     RISCV64_SCT/SCT/Sequence/BRSI_extd_run.seq
-	cp SctPkg/BRS/BRSI.seq              RISCV64_SCT/SCT/Sequence/BRSI.seq
+	cp SctPkg/BRS/BRSI.seq              RISCV64_SCT/SCT/Sequence/rv64server_brsi.seq
 	cp SctPkg/BRS/BRSIStartup.nsh       RISCV64_SCT/SctStartup.nsh
 
 	# Is this useless?
