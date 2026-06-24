@@ -42,9 +42,81 @@ BRS_BLOCK_SIZE=512
 BRS_SEC_PER_MB=$((1024*2))
 
 # Functions
+brs_usage() {
+    cat <<EOF
+Usage:
+  ./build.sh
+  ./build.sh --preset fst-sct
+  ./build.sh --check fst-sct
+
+Presets:
+  fst-sct    Build/check only the artifacts required by FST FAT media download.
+EOF
+}
+
 brs_init() {
     echo "Initializing the target directory..."
     rm -rf "$TARGET_DIR"
+}
+
+brs_compile_component() {
+    local component="$1"
+    local component_dir="$SRC_DIR/brs-$component"
+
+    if [ ! -d "$component_dir" ]; then
+        echo "Component directory does not exist: $component_dir" >&2
+        return 1
+    fi
+
+    echo "Compiling $component..."
+    pushd "$component_dir" > /dev/null
+    if make; then
+        echo "$component compiled successfully."
+        popd > /dev/null
+        return 0
+    fi
+    echo "Failed to compile $component." >&2
+    popd > /dev/null
+    return 1
+}
+
+brs_check_required_file() {
+    local label="$1"
+    local path="$2"
+
+    if [ ! -f "$path" ]; then
+        echo "Missing $label: $path" >&2
+        return 1
+    fi
+    return 0
+}
+
+brs_check_fst_sct_artifacts() {
+    local missing=0
+
+    brs_check_required_file "Shell.efi" "$BRS_UEFI_SHELL_EFI_FILE" || missing=1
+    brs_check_required_file "startup.nsh" "$BRS_EFI_CONFIG_SCRIPT" || missing=1
+    brs_check_required_file "BRSIStartup.nsh" "$BRS_EFI_SCT_STARTUP_SCRIPT" || missing=1
+    brs_check_required_file "SCT.efi" "$BRS_UEFI_SCT_PATH/SCT/SCT.efi" || missing=1
+    brs_check_required_file "SctStartup.nsh" "$BRS_UEFI_SCT_PATH/SctStartup.nsh" || missing=1
+
+    if [ "$missing" -ne 0 ]; then
+        echo "FST SCT artifacts are incomplete." >&2
+        return 1
+    fi
+
+    echo "FST SCT artifacts are ready."
+    return 0
+}
+
+brs_compile_fst_sct() {
+    local components=("edk2" "edk2-test")
+
+    echo "Building FST SCT artifacts for FAT media download..."
+    for component in "${components[@]}"; do
+        brs_compile_component "$component"
+    done
+    brs_check_fst_sct_artifacts
 }
 
 brs_compile() {
@@ -103,26 +175,12 @@ brs_compile() {
         return
     elif [[ $selection == 'C' || $selection == 'c' || -z "$selection" ]]; then
         for component in "${components[@]}"; do
-            echo "Compiling $component..."
-            pushd "$SRC_DIR/brs-$component" > /dev/null
-            if make; then
-                echo "$component compiled successfully."
-            else
-                echo "Failed to compile $component."
-            fi
-            popd > /dev/null
+            brs_compile_component "$component" || true
         done
         return
     elif [[ $selection -ge 1 && $selection -le ${#components[@]} ]]; then
         local component=${components[$((selection - 1))]}
-        echo "Compiling $component..."
-        pushd "$SRC_DIR/brs-$component" > /dev/null
-        if make; then
-            echo "$component compiled successfully."
-        else
-            echo "Failed to compile $component."
-        fi
-        popd > /dev/null
+        brs_compile_component "$component" || true
     else
         echo "Invalid selection. Returning to main menu."
     fi
@@ -384,5 +442,45 @@ show_menu_with_countdown() {
     done
 }
 
+main() {
+    case "${1:-}" in
+        "")
+            show_menu_with_countdown
+            ;;
+        --preset)
+            case "${2:-}" in
+                fst-sct)
+                    brs_compile_fst_sct
+                    ;;
+                *)
+                    echo "Unknown preset: ${2:-}" >&2
+                    brs_usage >&2
+                    return 2
+                    ;;
+            esac
+            ;;
+        --check)
+            case "${2:-}" in
+                fst-sct)
+                    brs_check_fst_sct_artifacts
+                    ;;
+                *)
+                    echo "Unknown check target: ${2:-}" >&2
+                    brs_usage >&2
+                    return 2
+                    ;;
+            esac
+            ;;
+        -h|--help)
+            brs_usage
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            brs_usage >&2
+            return 2
+            ;;
+    esac
+}
+
 # Start execute
-show_menu_with_countdown
+main "$@"
