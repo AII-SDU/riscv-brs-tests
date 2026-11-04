@@ -1,0 +1,45 @@
+## @file
+#  SCT adapter for the original RISC-V UEFI protocol Shell tests.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = RiscvUefiProtocolBBTest
+  FILE_GUID                      = e8faa41f-e9e7-4cb7-8974-895df0467d6d
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = InitializeBBTestRiscvUefiProtocol
+
+[Sources]
+  RiscvUefiProtocolBBTest.c
+  RiscvUefiProtocolBBTest.h
+  C3isImplementedRISCV_EFI_BOOT_PROTOCOL/RiscvBootProtocolSctTest.c
+  C3isImplementedRISCV_EFI_BOOT_PROTOCOL/RiscvBootProtocolSctTest.h
+  C3isCalledBeforeExitBootServices/RiscvBeforeExitBootServicesSctTest.c
+  C3isCalledBeforeExitBootServices/RiscvBeforeExitBootServicesSctTest.h
+  C3AdaptToDtandAcpi/RiscvDtAcpiSctTest.c
+  C3AdaptToDtandAcpi/RiscvDtAcpiSctTest.h
+  case_3_1/RiscvGuidSctTest.c
+  case_3_1/RiscvGuidSctTest.h
+  case_3_2/RiscvRevisionSctTest.c
+  case_3_2/RiscvRevisionSctTest.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  SctPkg/SctPkg.dec
+  SctPkg/UEFI/UEFI.dec
+
+[LibraryClasses]
+  BaseMemoryLib
+  EfiTestLib
+  MemoryAllocationLib
+  PrintLib
+  SctLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  UefiLib
+
+[Protocols]
+  gEfiStandardTestLibraryGuid

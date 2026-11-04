@@ -498,6 +498,7 @@ SctPkg/TestCase/UEFI/EFI/Generic/ExeMode/BlackBoxTest/ExeModeBBTest.inf
 
 [Components.RISCV64]
 SctPkg/TestCase/UEFI/EFI/Protocol/RiscV/BlackBoxTest/RiscVBootProtocolBBTest.inf
+SctPkg/TestCase/UEFI/EFI/Generic/RiscvUefiProtocol/BlackBoxTest/RiscvUefiProtocolBBTest.inf
 
 # Check if EFI Specification Version is 2.7 or greater
 SctPkg/TestCase/UEFI/EFI/Generic/BrsiEfiSpecVerLvl/BlackBoxTest/EfiSpecVerLvlBBTest.inf
