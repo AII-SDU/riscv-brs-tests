@@ -1,0 +1,36 @@
+Subject: [PATCH] Register and package RISC-V UEFI protocol tests
+
+Add the SCT category for the five standalone protocol tests and package
+their black-box driver alongside the existing RISC-V boot protocol driver.
+Use the generic-test interface so checks for a missing protocol still run.
+
+diff --git a/uefi-sct/SctPkg/CommonGenFramework.sh b/uefi-sct/SctPkg/CommonGenFramework.sh
+--- a/uefi-sct/SctPkg/CommonGenFramework.sh
++++ b/uefi-sct/SctPkg/CommonGenFramework.sh
+@@ -448,6 +448,10 @@ then
+     if [ -e $ProcessorType/RiscVBootProtocolBBTest.efi ]; then
+       cp $ProcessorType/RiscVBootProtocolBBTest.efi              $Framework/Test/ > NUL
+     fi
++    if [ -e $ProcessorType/RiscvUefiProtocolBBTest.efi ]; then
++      cp $ProcessorType/RiscvUefiProtocolBBTest.efi              $Framework/Test/ > NUL
++    fi
++
+ 
+     # *********************************************
+     # BRS test cases
+diff --git a/uefi-sct/SctPkg/Config/Data/Category.ini b/uefi-sct/SctPkg/Config/Data/Category.ini
+--- a/uefi-sct/SctPkg/Config/Data/Category.ini
++++ b/uefi-sct/SctPkg/Config/Data/Category.ini
+@@ -91,5 +91,12 @@ Description   =
+ [Category Data]
+ Revision      = 0x00010000
++CategoryGuid  = 3EEB9C98-9A8A-47B0-B933-823893D0C6FB
++InterfaceGuid = 71652D04-BF38-434A-BCB8-6547D7FD8384
++Name          = GenericTest\RiscvUefiProtocolTest
++Description   = RISC-V UEFI protocol presence, GUID, revision and environment tests.
++
++[Category Data]
++Revision      = 0x00010000
+ CategoryGuid  = d6e40d12-7a51-4454-b4fd-4c93887ed6cf
+ InterfaceGuid = 71652D04-BF38-434A-BCB8-6547D7FD8384
+ Name          = GenericTest\TestEfiSpecVerLvl
