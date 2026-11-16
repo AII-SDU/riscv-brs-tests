@@ -17,6 +17,19 @@
 #!/bin/bash
 set -e
 
+make() {
+    if [[ "$#" -eq 3 &&
+          "$1" == "-C" &&
+          "$2" == "BaseTools" &&
+          "$3" == "clean" ]]; then
+        env -u PYTHON_COMMAND make "$@"
+    else
+        command make "$@"
+    fi
+}
+
+export -f make
+
 # Variables
 SRC_DIR="$(pwd)/src"
 TARGET_DIR="$(pwd)/target"
