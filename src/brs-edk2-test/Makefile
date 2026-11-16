@@ -75,6 +75,7 @@ brs-edk2-test:
 	cp ../config/BRSI_manual.seq            uefi-sct/SctPkg/BRS/
 	cp ../config/BRSI_extd_run.seq          uefi-sct/SctPkg/BRS/
 	cp ../config/RiscvUefiProtocol.seq      uefi-sct/SctPkg/BRS/
+	cp ../config/Jietitest.seq              uefi-sct/SctPkg/BRS/
 	cp ../config/EfiCompliant_BRSI.ini      uefi-sct/SctPkg/BRS/
 
 	@echo "Compiling EDK2-Test..."
@@ -95,6 +96,7 @@ brs-edk2-test:
 	cp SctPkg/BRS/BRSI_extd_run.seq     RISCV64_SCT/SCT/Sequence/BRSI_extd_run.seq
 	cp SctPkg/BRS/BRSI.seq              RISCV64_SCT/SCT/Sequence/BRSI.seq
 	cp SctPkg/BRS/RiscvUefiProtocol.seq RISCV64_SCT/SCT/Sequence/RiscvUefiProtocol.seq
+	cp SctPkg/BRS/Jietitest.seq         RISCV64_SCT/SCT/Sequence/Jietitest.seq
 	cp SctPkg/BRS/BRSIStartup.nsh       RISCV64_SCT/SctStartup.nsh
 
 	# Is this useless?
